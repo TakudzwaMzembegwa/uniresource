@@ -12,6 +12,7 @@ import com.uniresource.backend.domain.dto.CreatePostRequest;
 import com.uniresource.backend.domain.dto.PostDto;
 import com.uniresource.backend.domain.dto.PostSearchRequest;
 import com.uniresource.backend.domain.dto.PostSummary;
+import com.uniresource.backend.domain.dto.UpdatePostImage;
 import com.uniresource.backend.domain.dto.UpdatePostRequest;
 import com.uniresource.backend.domain.entity.Location;
 import com.uniresource.backend.domain.entity.Post;
@@ -84,13 +85,16 @@ public class PostController {
 
     @GetMapping("update/{id}")
     public UpdatePostRequest updatePost(@PathVariable long id) {
-        return postMapper.toUpdatePostRequest(postRepository.findById(id).orElseThrow());
+        UpdatePostRequest updatePostRequest = postMapper.toUpdatePostRequest(postRepository.findById(id).orElseThrow());
+        updatePostRequest.getPostImages().stream().forEach(UpdatePostImage::makeURI);
+        return updatePostRequest;
     }
 
     @PatchMapping("update")
     public UpdatePostRequest updatePost(@RequestPart("files") @Valid MultipartFile[] files,
             @RequestPart("request") @Valid @NotNull UpdatePostRequest updatePostRequest) throws IOException {
         postService.update(files, updatePostRequest);
+        //return user to posts
         return updatePostRequest;
     }
 

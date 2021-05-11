@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LocationDto {
 
-    public int locationId;
+    private int locationId;
 
-    public CountryDto country;
+    private CountryDto country;
 
-    public ProvinceDto province;
+    private ProvinceDto province;
 
-    public UniversityDto university;
+    private UniversityDto university;
 }

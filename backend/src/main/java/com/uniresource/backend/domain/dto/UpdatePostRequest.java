@@ -16,7 +16,7 @@ public class UpdatePostRequest {
     private String title = "";
     private String description = "";
     private float price = 0;
-    private SimpleLocation location;
+    private LocationDto location;
     private List<UpdatePostImage> postImages = new ArrayList<>(6);   
     private String category = "";
     private String condition = "";

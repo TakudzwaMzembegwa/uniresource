@@ -135,14 +135,12 @@ public class PostService {
         }
         if (updatePost.getLocation() != null && updatePost.getLocation().getLocationId() > 0L) {
             postToUpdate.setLocation(locationRepository.getOne(updatePost.getLocation().getLocationId()));
-            params.put("country", updatePost.getLocation().getCountry());
-            params.put("province", updatePost.getLocation().getProvince());
-            params.put("university", updatePost.getLocation().getUniversity());
+            params.put("country", updatePost.getLocation().getCountry().getCountryName());
+            params.put("province", updatePost.getLocation().getProvince().getProvinceName());
+            params.put("university", updatePost.getLocation().getUniversity().getUniversityName());
         }
         if (updatePost.getPostImages() != null) {
-            List<PostImage> postImages = postImageService
-            .save(files,
-             updatePost.getPostImages(), postToUpdate);
+            List<PostImage> postImages = postImageService.save(files, updatePost.getPostImages(), postToUpdate);
             params.put("post_image", FileStorageService.THUMBNAIL_PREFIX + postImages.get(0).getImage());
 
         }
