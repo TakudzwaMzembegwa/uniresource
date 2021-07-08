@@ -12,5 +12,5 @@ public class FileStorageProperties {
 
     private String uploadDir;
 
-    public static final String IMAGEROOT = "http://localhost:8080/api/v1/image/";
+    public static final String IMAGEROOT = "http://localhost:8080/image/";
 }
