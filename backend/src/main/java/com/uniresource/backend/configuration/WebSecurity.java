@@ -34,7 +34,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
         .and()
         .csrf().disable()
         .authorizeRequests()
-        .antMatchers("/api/v1/signup", "/h2-console/**", "/api/v1/image/**", "/api/v1/user/{username}", "/api/v1/post/search", "/api/v1/post/search_params", "/api/v1/post/p/{id}")
+        .antMatchers("/signup", "/", "/signin", "/h2-console/**", "/image/**", "/user/{username}", "/search", "/search_params", "/post/{id}")
         .permitAll() 
         .anyRequest()
         .authenticated()
@@ -55,7 +55,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
 
     public JWTAuthenticationFilter getJWTAuthenticationFilter() throws Exception{
         final JWTAuthenticationFilter filter = new JWTAuthenticationFilter(authenticationManager());
-        filter.setFilterProcessesUrl("/api/v1/login");
+        filter.setFilterProcessesUrl("/login");
 
         return filter;
     }
