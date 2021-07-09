@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import com.uniresource.backend.domain.dto.CreateUserRequest;
+import com.uniresource.backend.domain.dto.DeleteUserRequest;
 import com.uniresource.backend.domain.dto.SigninForm;
 import com.uniresource.backend.domain.dto.UpdatePasswordRequest;
 import com.uniresource.backend.domain.dto.UpdateUserRequest;
@@ -69,18 +70,29 @@ public class UserController {
 	}
 
 	@GetMapping("/update")
-	public UpdateUserRequest updateUser() {
-		return new UpdateUserRequest();
+	public ResponseEntity<EntityModel<UpdateUserRequest>> updateUser(Authentication authentication) {
+		EntityModel<UpdateUserRequest> model = EntityModel.of(new UpdateUserRequest());
+		model.add(linkTo(methodOn(UserController.class).updateUser(authentication)).withSelfRel());
+		model.add(linkTo(methodOn(UserController.class).getUser(authentication.getName())).withRel("userDetails"));
+		model.add(linkTo(methodOn(UserController.class).updatePassword(authentication)).withRel("changePassword"));
+		model.add(linkTo(methodOn(UserController.class).deleteUser(authentication)).withRel("deleteUser"));
+		return ResponseEntity.ok(model);
 	}
 
 	@PostMapping("/update")
-	public UserDto updateUser(@RequestPart("file") @Valid MultipartFile file,
+	public ResponseEntity<EntityModel<UserDto>> updateUser(@RequestPart("file") @Valid MultipartFile file,
 			@RequestPart("request") @Valid @NotNull UpdateUserRequest request, Authentication authentication) {
-		return userService.update(file, request, authentication.getName());
+
+		EntityModel<UserDto> model = EntityModel.of(userService.update(file, request, authentication.getName()));
+		model.add(linkTo(methodOn(UserController.class).updateUser(file, request, authentication)).withSelfRel());
+		model.add(linkTo(methodOn(UserController.class).getUser(authentication.getName())).withRel("userDetails"));
+		model.add(linkTo(methodOn(UserController.class).updatePassword(authentication)).withRel("updatePassword"));
+		model.add(linkTo(methodOn(UserController.class).deleteUser(authentication)).withRel("deleteUser"));
+		return ResponseEntity.ok(model);
 	}
 	
 	@GetMapping("/change_password")
-	public UpdatePasswordRequest updatePassword() {
+	public UpdatePasswordRequest updatePassword(Authentication authentication) {
 		return new UpdatePasswordRequest();
 	}
 	
@@ -90,10 +102,14 @@ public class UserController {
 	}
 
 	@GetMapping("/delete")
-	public Map<String, String> deleteUser() {
-		Map<String, String> map = new TreeMap<>();
-		map.put("password", null);
-		return map;
+	public  ResponseEntity<EntityModel<DeleteUserRequest>> deleteUser(Authentication authentication) {
+		EntityModel<DeleteUserRequest> model = EntityModel.of(new DeleteUserRequest());
+		model.add(linkTo(methodOn(UserController.class).deleteUser(authentication)).withSelfRel());
+		model.add(linkTo(methodOn(UserController.class).getUser(authentication.getName())).withRel("userDetails"));
+		model.add(linkTo(methodOn(UserController.class).updateUser(authentication)).withRel("updateUser"));
+		model.add(linkTo(methodOn(UserController.class).updatePassword(authentication)).withRel("updatePassword"));
+
+		return ResponseEntity.ok(model);
 	}
 
 	@PostMapping("/delete")
