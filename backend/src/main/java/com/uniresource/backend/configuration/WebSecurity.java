@@ -33,8 +33,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
         http.cors()
         .and()
         .csrf().disable()
-        .authorizeRequests()
-        .antMatchers("/signup", "/", "/signin", "/h2-console/**", "/image/**", "/user/{username}", "/search", "/search_params", "/post/{id}")
+        .authorizeRequests()//.mvcMatchers(HttpMethod.GET, "/**").permitAll() // GET requests don't need auth
+        .antMatchers("/signup", "/", "/signin", "/h2-console/**", "/image/**", "/user/{username}", "/search", "/search_params", "/post/{id}", "/logout")
         .permitAll() 
         .anyRequest()
         .authenticated()
