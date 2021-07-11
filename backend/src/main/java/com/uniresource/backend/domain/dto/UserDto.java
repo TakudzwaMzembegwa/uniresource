@@ -18,7 +18,9 @@ public class UserDto {
 	@NotBlank
 	private String username;
 
-	private String fullname;
+	private String  firstname;
+
+	private String lastname;
 
 	@NotBlank
 	private String email;

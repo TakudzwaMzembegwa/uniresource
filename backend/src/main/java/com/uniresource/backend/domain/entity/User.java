@@ -48,10 +48,15 @@ public class User {
 	@Column(name = "username", nullable = false, unique = true, length = 30)
 	private String username;
 
-	private String fullname;
 	@NaturalId
 	@Column(name = "email", nullable = false, unique = true, length = 60)
 	private String email;
+
+	@Column(length = 60)
+	private String firstname;
+
+	@Column(length = 60)
+	private String lastname;
 
 	@Column(name = "phone_number", updatable = true, nullable = true, length = 18)
 	private String phoneNumber;
@@ -101,10 +106,10 @@ public class User {
 	@Transient
     public static final String PREFIX = "user";
 
-	public User(String username, String fullname, String email, String phoneNumber, String password,
+	public User(String username, String firstname, String email, String phoneNumber, String password,
 			String about, String profilePic, Location location, Gender gender, StudyYear studyYear) {
 		this.username = username;
-		this.fullname = fullname;
+		this.firstname = firstname;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.password = password;

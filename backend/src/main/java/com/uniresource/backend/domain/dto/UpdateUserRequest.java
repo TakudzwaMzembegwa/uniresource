@@ -7,17 +7,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateUserRequest {
  
-	public String fullname;
+	private String  firstname;
 
-    public String phoneNumber;
+	private String lastname;
+
+    private String phoneNumber;
     
-	public String about;
+	private String about;
 
-	public String profilePic;
+	private String profilePic;
 
-	public LocationDto location;
+	private LocationDto location;
 
-	public String gender;
+	private String gender;
 
-	public String studyYear;
+	private String studyYear;
 }
