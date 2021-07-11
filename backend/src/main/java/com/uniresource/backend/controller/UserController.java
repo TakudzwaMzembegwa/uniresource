@@ -92,8 +92,14 @@ public class UserController {
 	}
 	
 	@GetMapping("/change_password")
-	public UpdatePasswordRequest updatePassword(Authentication authentication) {
-		return new UpdatePasswordRequest();
+	public  ResponseEntity<EntityModel<UpdatePasswordRequest>> updatePassword(Authentication authentication) {
+
+		EntityModel<UpdatePasswordRequest> model = EntityModel.of(new UpdatePasswordRequest());
+		model.add(linkTo(methodOn(UserController.class).updatePassword(authentication)).withSelfRel());
+		model.add(linkTo(methodOn(UserController.class).getUser(authentication.getName())).withRel("userDetails"));
+		model.add(linkTo(methodOn(UserController.class).updateUser(authentication)).withRel("updateUser"));
+		model.add(linkTo(methodOn(UserController.class).deleteUser(authentication)).withRel("deleteUser"));
+		return  ResponseEntity.ok(model);
 	}
 	
 	@PostMapping("/change_password")
