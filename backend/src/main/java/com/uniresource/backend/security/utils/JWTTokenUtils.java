@@ -1,5 +1,7 @@
 package com.uniresource.backend.security.utils;
 
+import java.util.Date;
+
 import javax.annotation.PostConstruct;
 
 import com.auth0.jwt.JWT;
@@ -20,7 +22,8 @@ public class JWTTokenUtils{
     public static void addBlackList(String token) {
 		if (!token.isBlank()) {
             token = token.replace(JWTAuthenticationFilter.TOKEN_PREFIX, "");
-            RedisUtils.set(token, "blacklist", JWT.decode(token).getExpiresAt().getTime());
+            Long expire = JWT.decode(token).getExpiresAt().getTime() - new Date().getTime();
+            RedisUtils.set(token, "blacklist", expire);
 		}
 	}
 
