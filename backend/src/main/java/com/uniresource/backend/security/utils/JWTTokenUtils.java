@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 
 import com.auth0.jwt.JWT;
+import com.uniresource.backend.security.configuration.JWTConfig;
 import com.uniresource.backend.security.filter.JWTAuthenticationFilter;
 
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ public class JWTTokenUtils{
     
     public static void addBlackList(String token) {
 		if (!token.isBlank()) {
-            token = token.replace(JWTAuthenticationFilter.TOKEN_PREFIX, "");
+            token = token.replace(JWTConfig.tokenPrefix, "");
             Long expire = JWT.decode(token).getExpiresAt().getTime() - new Date().getTime();
             RedisUtils.set(token, "blacklist", expire);
 		}
@@ -29,14 +30,14 @@ public class JWTTokenUtils{
 
 	public static void deleteRedisToken(String token) {
 		if (!token.isBlank()) {
-			token = token.replace(JWTAuthenticationFilter.TOKEN_PREFIX, "");
+			token = token.replace(JWTConfig.tokenPrefix, "");
 			RedisUtils.delete(token);
 		}
 	}
 
 	public static boolean isBlackList(String token) {
 		if (!token.isBlank()) {
-			token = token.replace(JWTAuthenticationFilter.TOKEN_PREFIX, "");
+			token = token.replace(JWTConfig.tokenPrefix, "");
 			return RedisUtils.hasKey(token);
 		}
 		return false;

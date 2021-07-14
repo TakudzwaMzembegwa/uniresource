@@ -12,6 +12,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uniresource.backend.domain.entity.User;
+import com.uniresource.backend.security.configuration.JWTConfig;
 import com.uniresource.backend.security.handler.JWTAuthenticationFailureHandler;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,11 +22,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-
-    public static final String SECRET = "121341werw244234w25234wewerwerwer";
-    public static final long EXPIRATION_TIME = 86400000; // 1 days
-    public static final String TOKEN_PREFIX = "Bearer ";
-    public static final String HEADER_STRING = "Authorization";
 
     private AuthenticationManager authenticationManager;
 
@@ -51,9 +47,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
             Authentication authResult) throws IOException, ServletException {
         String token = JWT.create().withSubject(((org.springframework.security.core.userdetails.User) authResult.getPrincipal()).getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .sign(Algorithm.HMAC512(SECRET.getBytes()));
-        response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+                .withExpiresAt(new Date(System.currentTimeMillis() + JWTConfig.expiration))
+                .sign(Algorithm.HMAC512(JWTConfig.secret.getBytes()));
+        response.addHeader(JWTConfig.tokenHeader, JWTConfig.tokenPrefix + token);
     }
 
 }

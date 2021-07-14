@@ -12,32 +12,39 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.uniresource.backend.security.configuration.JWTConfig;
 import com.uniresource.backend.security.utils.JWTTokenUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter{
     
+    public static final Logger log = LoggerFactory.getLogger(JWTAuthorizationFilter.class);
+
     public JWTAuthorizationFilter(AuthenticationManager authenticationManager){
         super(authenticationManager);
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException{
-        String header = request.getHeader(JWTAuthenticationFilter.HEADER_STRING);
-        if(header == null || !header.startsWith(JWTAuthenticationFilter.TOKEN_PREFIX)){
+        log.info("\n>>>>>>>>\n>>>\n>>>\n>>>\nTOKEH HEARDER:" + JWTConfig.tokenHeader);  
+        String header = request.getHeader(JWTConfig.tokenHeader);
+        if(header == null || !header.startsWith(JWTConfig.tokenPrefix)){
             chain.doFilter(request, response);
             return;
         }
        
         try{
             UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
-            String token = request.getHeader(JWTAuthenticationFilter.HEADER_STRING);
-            if(JWTTokenUtils.isBlackList(token.replace(JWTAuthenticationFilter.TOKEN_PREFIX, ""))){
+            String token = request.getHeader(JWTConfig.tokenHeader);
+            if(JWTTokenUtils.isBlackList(token.replace(JWTConfig.tokenPrefix, ""))){
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
                 response.getWriter().write("Authentication error, Token`s Blacklisted");
                 return;
@@ -56,14 +63,14 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter{
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication( HttpServletRequest request){
-        String token = request.getHeader(JWTAuthenticationFilter.HEADER_STRING);
+        String token = request.getHeader(JWTConfig.tokenHeader);
         if(token != null){
             String user = null;
             try {
                 user = 
-                JWT.require(Algorithm.HMAC512(JWTAuthenticationFilter.SECRET.getBytes()))
+                JWT.require(Algorithm.HMAC512(JWTConfig.secret.getBytes()))
                     .build()
-                    .verify(token.replace(JWTAuthenticationFilter.TOKEN_PREFIX, ""))
+                    .verify(token.replace(JWTConfig.tokenPrefix, ""))
                     .getSubject();
 
             } catch (Exception e) {
