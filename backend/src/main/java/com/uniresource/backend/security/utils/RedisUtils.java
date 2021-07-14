@@ -43,7 +43,4 @@ public class RedisUtils {
         return redisUtils.redisTemplate.opsForValue().getOperations().hasKey(key);
     }
 
-
-
-
 }

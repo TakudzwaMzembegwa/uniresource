@@ -1,9 +1,11 @@
 package com.uniresource.backend;
 
 import com.uniresource.backend.property.FileStorageProperties;
+import com.uniresource.backend.security.configuration.JWTConfig;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -17,7 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @SpringBootApplication
 @EnableJpaRepositories(excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = ElasticsearchRepository.class))
 @EnableElasticsearchRepositories(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = ElasticsearchRepository.class))
-@EnableConfigurationProperties({ FileStorageProperties.class })
+@EnableConfigurationProperties({ FileStorageProperties.class, JWTConfig.class })
 @EnableElasticsearchAuditing
 public class DemoApplication {
 
