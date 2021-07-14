@@ -39,7 +39,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
         .and()
         .csrf().disable()
         .authorizeRequests()//.mvcMatchers(HttpMethod.GET, "/**").permitAll() // GET requests don't need auth
-        .antMatchers("/signup", "/", "/signin", "/h2-console/**", "/image/**", "/user/{username}", "/search", "/search_params", "/post/{id}", "/logout")
+        .antMatchers(JWTConfig.antMatchers)
         .permitAll()
         .anyRequest()
         .authenticated()
