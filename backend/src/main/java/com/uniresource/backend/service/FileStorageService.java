@@ -20,7 +20,7 @@ import javax.imageio.ImageIO;
 import javax.validation.constraints.NotNull;
 
 import com.uniresource.backend.domain.entity.PostImage;
-import com.uniresource.backend.property.FileStorageProperties;
+import com.uniresource.backend.security.utils.FileStorageUtils;
 
 @Service
 public class FileStorageService {
@@ -29,7 +29,7 @@ public class FileStorageService {
 	
     public static final String THUMBNAIL_PREFIX = "sml";
     @Autowired
-    public FileStorageService(FileStorageProperties fileStorageProperties) {
+    public FileStorageService(FileStorageUtils fileStorageProperties) {
         this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir()).toAbsolutePath().normalize();
         try {
             Files.createDirectories(this.fileStorageLocation);

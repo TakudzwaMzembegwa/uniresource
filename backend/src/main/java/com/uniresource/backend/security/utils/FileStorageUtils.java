@@ -1,4 +1,4 @@
-package com.uniresource.backend.property;
+package com.uniresource.backend.security.utils;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @ConfigurationProperties(prefix = "file")
-public class FileStorageProperties {
+public class FileStorageUtils {
 
     private String fileName;
 
