@@ -3,7 +3,7 @@ package com.uniresource.backend.domain.dto;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import com.uniresource.backend.property.FileStorageProperties;
+import com.uniresource.backend.security.utils.FileStorageUtils;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,7 +23,7 @@ public class UpdatePostImage {
     public void makeURI() {
         if (this.image != null) {
             try {
-                this.image = (new URI(FileStorageProperties.IMAGEROOT + image.replace(" ", "%20"))).toString();
+                this.image = (new URI(FileStorageUtils.IMAGEROOT + image.replace(" ", "%20"))).toString();
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }

@@ -5,7 +5,7 @@ import java.net.URISyntaxException;
 
 import javax.validation.constraints.NotBlank;
 
-import com.uniresource.backend.property.FileStorageProperties;
+import com.uniresource.backend.security.utils.FileStorageUtils;
 
 import lombok.Data;
 
@@ -49,7 +49,7 @@ public class UserDto {
     
 	public void setProfilePic(String profilePic) {
         try {
-            this.profilePic = (new URI(FileStorageProperties.IMAGEROOT + profilePic.replace(" ", "%20"))).toString();
+            this.profilePic = (new URI(FileStorageUtils.IMAGEROOT + profilePic.replace(" ", "%20"))).toString();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
