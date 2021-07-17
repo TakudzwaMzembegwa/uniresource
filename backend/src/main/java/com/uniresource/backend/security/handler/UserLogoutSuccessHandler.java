@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.uniresource.backend.security.configuration.JWTConfig;
-import com.uniresource.backend.security.filter.JWTAuthenticationFilter;
 import com.uniresource.backend.security.utils.JWTTokenUtils;
 
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,6 @@
 package com.uniresource.backend.security.handler;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.util.Date;
 
 import javax.servlet.ServletException;
