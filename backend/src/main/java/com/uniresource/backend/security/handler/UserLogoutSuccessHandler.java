@@ -3,8 +3,6 @@ package com.uniresource.backend.security.handler;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,9 +12,6 @@ import com.uniresource.backend.controller.UserController;
 import com.uniresource.backend.security.configuration.JWTConfig;
 import com.uniresource.backend.security.utils.JWTTokenUtils;
 
-import org.springframework.hateoas.Link;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -33,7 +28,7 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
         JWTTokenUtils.addBlackList(token);
 
         SecurityContextHolder.clearContext();
-        String logoutLink = linkTo(UserController.class).slash("login").toUri().toURL().toString();
+        var logoutLink = linkTo(UserController.class).slash("login").toUri().toURL().toString();
         response.setHeader("Location", logoutLink);
     }
 
