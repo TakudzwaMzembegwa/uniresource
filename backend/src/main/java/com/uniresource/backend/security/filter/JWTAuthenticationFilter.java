@@ -11,10 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.uniresource.backend.controller.RootController;
 import com.uniresource.backend.domain.entity.User;
 import com.uniresource.backend.security.configuration.JWTConfig;
 import com.uniresource.backend.security.handler.JWTAuthenticationFailureHandler;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -50,6 +52,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withExpiresAt(new Date(System.currentTimeMillis() + JWTConfig.expiration))
                 .sign(Algorithm.HMAC512(JWTConfig.secret.getBytes()));
         response.addHeader(JWTConfig.tokenHeader, JWTConfig.tokenPrefix + token);
+        response.addHeader("Location", linkTo(methodOn(RootController.class).root()).withRel("home").getHref());
     }
 
 }
