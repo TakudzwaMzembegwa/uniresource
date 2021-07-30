@@ -1,8 +1,12 @@
 package com.uniresource.backend.domain.dto;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import com.uniresource.backend.controller.FileController;
 import com.uniresource.backend.domain.entity.Category;
 import com.uniresource.backend.domain.entity.Condition;
 
@@ -24,7 +28,7 @@ public class PostSummary {
 
     public void setPostImage(String postImage){
         try {
-            this.postImage = (new URI("http://localhost:8080/image/"+postImage.replace(" ", "%20"))).toString();
+            this.postImage = (new URI( linkTo(methodOn(FileController.class).getFile("", null)).withRel("image").getHref() + postImage.replace(" ", "%20"))).toString();
         } catch (URISyntaxException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

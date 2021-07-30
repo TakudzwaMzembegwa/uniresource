@@ -3,8 +3,9 @@ package com.uniresource.backend.domain.dto;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import com.uniresource.backend.security.utils.FileStorageUtils;
+import com.uniresource.backend.controller.FileController;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ public class PostImageDto {
     
     public void setImage(String image) {
         try {
-            this.image = (new URI(FileStorageUtils.IMAGEROOT + image.replace(" ", "%20"))).toString();
+            this.image = (new URI(linkTo(methodOn(FileController.class).getFile("", null)).withRel("image").getHref() + image.replace(" ", "%20"))).toString();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
