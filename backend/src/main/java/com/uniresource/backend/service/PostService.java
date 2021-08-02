@@ -96,10 +96,10 @@ public class PostService {
 
     @Transactional
     public PostDto save(MultipartFile[] files, CreatePostRequest request, String username) {
-        Post post = postMapper.createPost(request);
+        var post = postMapper.createPost(request);
         post.setPostImages(
                 Arrays.asList(files).stream().map(f -> postImageService.create(f)).collect(Collectors.toList()));
-        User user = userRepository.findByUsername(username)
+        var user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User does not exists: " + username));
         user.setTotalPosts(user.getTotalPosts() + 1);
         post.setPostStatus(PostStatus.ACTIVE);
@@ -117,8 +117,8 @@ public class PostService {
     }
 
     @Transactional
-    public void update(MultipartFile[] files, UpdatePostRequest updatePost) throws IOException {
-        Post postToUpdate = postRepository.getOne(updatePost.getPostId());
+    public PostDto update(MultipartFile[] files, UpdatePostRequest updatePost) throws IOException {
+        var postToUpdate = postRepository.getById(updatePost.getPostId());
         Map<String, Object> params = new HashMap<>();
 
         if (!updatePost.getTitle().isBlank()) {
@@ -134,7 +134,7 @@ public class PostService {
             params.put("price", updatePost.getPrice());
         }
         if (updatePost.getLocation() != null && updatePost.getLocation().getLocationId() > 0L) {
-            postToUpdate.setLocation(locationRepository.getOne(updatePost.getLocation().getLocationId()));
+            postToUpdate.setLocation(locationRepository.getById(updatePost.getLocation().getLocationId()));
             params.put("country", updatePost.getLocation().getCountry().getCountryName());
             params.put("province", updatePost.getLocation().getProvince().getProvinceName());
             params.put("university", updatePost.getLocation().getUniversity().getUniversityName());
@@ -153,18 +153,19 @@ public class PostService {
             params.put("category", Category.valueOf(updatePost.getCategory().toUpperCase()));
         }
 
-        UpdateByQueryRequest updateRequest = new UpdateByQueryRequest(INDEX);
+        var updateRequest = new UpdateByQueryRequest(INDEX);
         updateRequest.setQuery(QueryBuilders.termQuery("post_id", updatePost.getPostId()));
         updateRequest.setConflicts("proceed");
-        Script updateScript = new Script(ScriptType.INLINE, "painless", "ctx._source.putAll(params)", params);
+        var updateScript = new Script(ScriptType.INLINE, "painless", "ctx._source.putAll(params)", params);
         updateRequest.setScript(updateScript);
-        postRepository.save(postToUpdate);
+        var savedPost = postRepository.save(postToUpdate);
         highLevelClient.updateByQuery(updateRequest, RequestOptions.DEFAULT);
+        return postMapper.toPostDto(savedPost);
     }
 
     @Transactional
     public void delete(long id) {
-        Post post = postRepository.findById(id).orElseThrow();
+        var post = postRepository.findById(id).orElseThrow();
         post.getPostImages().forEach(im -> postImageService.delete(im));
         postRepository.delete(post);
         postESRepository.deleteByPostId(id);
@@ -172,7 +173,7 @@ public class PostService {
 
     @Transactional
     public PostDto getPostDto(long id) {
-       Post post = postRepository.findById(id).orElseThrow();
+       var post = postRepository.findById(id).orElseThrow();
         return postMapper.toPostDto(post);
     }
 
