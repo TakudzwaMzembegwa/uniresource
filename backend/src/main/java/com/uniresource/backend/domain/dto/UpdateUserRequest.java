@@ -15,8 +15,6 @@ public class UpdateUserRequest {
     
 	private String about;
 
-	private String profilePic;
-
 	private LocationDto location;
 
 	private String gender;
