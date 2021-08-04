@@ -1,9 +1,11 @@
 package com.uniresource.backend.controller;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+import com.uniresource.backend.domain.dto.PostSearchRequest;
 
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,17 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class RootController {
     
     @GetMapping("/")
-    public ResponseEntity<RepresentationModel> root(){
+    public ResponseEntity<RepresentationModel> root(Authentication authentication){
 
-        RepresentationModel model = new RepresentationModel();
-
-        model.add(linkTo(methodOn(RootController.class).root()).withSelfRel());
-        model.add(linkTo(methodOn(UserController.class).signin()).withRel("signin"));
-        model.add(linkTo(methodOn(UserController.class).signup()).withRel("signup"));
-        model.add(linkTo(methodOn(PostController.class).createPostRequest()).withRel("createPost"));
-        model.add(linkTo(methodOn(PostController.class).postSearchRequest()).withRel("postSearchRequest"));
-
-        return ResponseEntity.ok(model);
+        return ResponseEntity
+                .ok(new RepresentationModel<>().add(
+                    linkTo(methodOn(RootController.class).root(null)).withSelfRel()
+                    .andAffordance(afford(methodOn(PostController.class).search(new PostSearchRequest())))
+                    .andAffordance(afford(methodOn(PostController.class).createPost(null, null, null))),
+                    authentication!=null && authentication.isAuthenticated() ?
+                        linkTo(UserController.class).slash("logout").withRel("logout") :
+                        linkTo(methodOn(UserController.class).signin()).withRel("signin")
+                ));
     }
 
 }

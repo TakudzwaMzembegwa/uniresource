@@ -52,7 +52,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withExpiresAt(new Date(System.currentTimeMillis() + JWTConfig.expiration))
                 .sign(Algorithm.HMAC512(JWTConfig.secret.getBytes()));
         response.addHeader(JWTConfig.tokenHeader, JWTConfig.tokenPrefix + token);
-        response.addHeader("Location", linkTo(methodOn(RootController.class).root()).withRel("home").getHref());
+        response.addHeader("Location", linkTo(methodOn(RootController.class).root(null)).withRel("home").getHref());
     }
 
 }
