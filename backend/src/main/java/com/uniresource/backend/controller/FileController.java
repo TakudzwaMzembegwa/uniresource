@@ -24,7 +24,7 @@ public class FileController {
     
     //public static final ServletUriComponentsBuilder URI_BUILDER = ServletUriComponentsBuilder.fromCurrentContextPath();
 
-    @GetMapping("{filename}") 
+    @GetMapping("/image/{filename}") 
     public ResponseEntity<Resource> getFile(@PathVariable String filename, HttpServletRequest request) {
         // Load file as Resource
         Resource resource = fileStorageService.loadFileAsResource(filename);
