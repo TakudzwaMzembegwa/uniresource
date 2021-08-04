@@ -12,7 +12,6 @@ import com.uniresource.backend.domain.entity.PostES;
 import com.uniresource.backend.domain.entity.PostImage;
 
 import org.mapstruct.AfterMapping;
-import org.mapstruct.BeforeMapping;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

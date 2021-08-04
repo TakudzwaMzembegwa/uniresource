@@ -1,14 +1,16 @@
 package com.uniresource.backend.domain.dto;
  
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.validation.constraints.NotBlank;
 
-import com.uniresource.backend.security.utils.FileStorageUtils;
+import com.uniresource.backend.controller.FileController;
 
 import lombok.Data;
-
 import lombok.NoArgsConstructor;
 
 @Data
@@ -49,10 +51,12 @@ public class UserDto {
     
 	public void setProfilePic(String profilePic) {
         try {
-            this.profilePic = (new URI(FileStorageUtils.IMAGEROOT + profilePic.replace(" ", "%20"))).toString();
+            this.profilePic = (new URI( linkTo(methodOn(FileController.class).getFile("", null)).withRel("image").getHref() + profilePic.replace(" ", "%20"))).toString();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }
+
+	
 
 }
