@@ -178,7 +178,7 @@ public class PostController {
                 return ResponseEntity.ok(
                     EntityModel.of(postDto,
                         linkTo(methodOn(PostController.class).findPost(id, null)).withSelfRel(),
-                        linkTo(methodOn(UserController.class).getUser(null, authentication.getName())).withRel("getUser"), 
+                        linkTo(methodOn(UserController.class).getUser(null, postDto.getUser().getUsername())).withRel("getUser"), 
                         linkTo(methodOn(PostController.class).createPost(null, null, null)).withRel("createPost"),
                         linkTo(methodOn(PostController.class).search(null)).withRel("search"),
                         linkTo(methodOn(RootController.class).root(null)).withRel("root")  
