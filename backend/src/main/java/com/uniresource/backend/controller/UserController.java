@@ -1,5 +1,9 @@
 package com.uniresource.backend.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.afford;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -20,24 +24,15 @@ import com.uniresource.backend.repository.UserRepository;
 import com.uniresource.backend.security.handler.UserLogoutSuccessHandler;
 import com.uniresource.backend.service.UserService;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.AffordanceModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.IanaLinkRelations;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.QueryParameter;
-import org.springframework.hateoas.mediatype.Affordances;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
