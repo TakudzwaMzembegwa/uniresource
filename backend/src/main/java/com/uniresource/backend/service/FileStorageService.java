@@ -1,13 +1,5 @@
 package com.uniresource.backend.service;
 
-import org.imgscalr.Scalr;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.stereotype.Service;
-
-import org.springframework.web.multipart.MultipartFile;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -17,10 +9,15 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 import javax.imageio.ImageIO;
-import javax.validation.constraints.NotNull;
 
-import com.uniresource.backend.domain.entity.PostImage;
 import com.uniresource.backend.security.configuration.FileStorageConfig;
+
+import org.imgscalr.Scalr;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FileStorageService {
