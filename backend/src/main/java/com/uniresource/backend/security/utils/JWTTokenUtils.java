@@ -6,7 +6,6 @@ import javax.annotation.PostConstruct;
 
 import com.auth0.jwt.JWT;
 import com.uniresource.backend.security.configuration.JWTConfig;
-import com.uniresource.backend.security.filter.JWTAuthenticationFilter;
 
 import org.springframework.stereotype.Component;
 
