@@ -7,22 +7,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import com.uniresource.backend.domain.dto.CreatePostRequest;
 import com.uniresource.backend.domain.dto.PostDto;
-import com.uniresource.backend.domain.dto.PostSearchFilter;
 import com.uniresource.backend.domain.dto.PostSearchRequest;
 import com.uniresource.backend.domain.dto.PostSummary;
 import com.uniresource.backend.domain.dto.UpdatePostRequest;
 import com.uniresource.backend.domain.entity.Category;
 import com.uniresource.backend.domain.entity.Condition;
-import com.uniresource.backend.domain.entity.Post;
 import com.uniresource.backend.domain.entity.PostES;
 import com.uniresource.backend.domain.entity.PostImage;
 import com.uniresource.backend.domain.entity.PostStatus;
-import com.uniresource.backend.domain.entity.User;
 import com.uniresource.backend.domain.mapper.LocationMapper;
 import com.uniresource.backend.domain.mapper.PostMapper;
 import com.uniresource.backend.repository.LocationRepository;
