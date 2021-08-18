@@ -1,7 +1,5 @@
 package com.uniresource.backend.service;
 
-import java.time.Instant;
-
 import javax.validation.ValidationException;
 
 import com.uniresource.backend.domain.dto.CreateUserRequest;
