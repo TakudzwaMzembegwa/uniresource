@@ -1,6 +1,5 @@
 package com.uniresource.backend;
 
-import java.io.File;
 import java.util.List;
 
 import com.uniresource.backend.domain.entity.Category;
